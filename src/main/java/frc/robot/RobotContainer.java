@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -45,6 +47,9 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+
+        //Register Commands
+        //NamedCommands.registerCommand("", s_Swerve.getCurrentCommand());
 
         // Configure the button bindings
         configureButtonBindings();
