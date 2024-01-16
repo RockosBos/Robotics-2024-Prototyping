@@ -54,30 +54,7 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driveController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton setZeroPoints = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
-    private final JoystickButton runConveyor = new JoystickButton(driveController, XboxController.Button.kX.value);
-    private final JoystickButton runConveyorReverse = new JoystickButton(driveController, XboxController.Button.kB.value);
-
-    /* Operator Buttons */
-    private final JoystickButton intakeRun = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton SetLiftPosition0 = new JoystickButton(operatorController, XboxController.Button.kA.value);
-    private final JoystickButton SetLiftPosition1 = new JoystickButton(operatorController, XboxController.Button.kX.value);
-    private final JoystickButton SetLiftPosition2 = new JoystickButton(operatorController, XboxController.Button.kB.value);
-    private final JoystickButton SetLiftPosition3 = new JoystickButton(operatorController, XboxController.Button.kY.value);
-    private final JoystickButton SetLiftPositionIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
-    private final Trigger GrabberDropCone = new Trigger(() -> operatorController.getRawAxis(3) > 0.9);
-    private final Trigger DoubleSubstationTargeting = new Trigger(() -> operatorController.getRawAxis(2) > 0.9);
-    private final Trigger NoConveyorInstructions = new Trigger(() -> !operatorController.getLeftBumper() && !driveController.getXButton() && !driveController.getBButton());
-
-
-    private final Trigger ManualLowerArm = new Trigger(() -> operatorController.getPOV() == 0);
-    private final Trigger ManualRaiseArm = new Trigger(() -> operatorController.getPOV() == 180);
-    private final Trigger ManualExtendArm = new Trigger(() -> operatorController.getPOV() == 90);
-    private final Trigger ManualRetractArm = new Trigger(() -> operatorController.getPOV() == 270);
-    private final Trigger NoManual = new Trigger(() -> operatorController.getPOV() == -1);
-
-    
-
+  
     private final SendableChooser<Command> autonomousSelector = new SendableChooser<Command>();
     private final SendableChooser<String> modeSelector = new SendableChooser<String>();
 
