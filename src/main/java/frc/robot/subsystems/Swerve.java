@@ -34,12 +34,6 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
 
-    public final GenericEntry poseXEntry;
-    public final GenericEntry poseYEntry;
-    public final GenericEntry angleEntry;
-    public final GenericEntry pitchEntry;
-    public final GenericEntry rollEntry;
-
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
         gyro.configFactoryDefault();
@@ -54,13 +48,6 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
 
-        poseXEntry = Constants.swerveDebugTab.add("Pose X", 0).getEntry();
-        poseYEntry = Constants.swerveDebugTab.add("Pose Y", 0).getEntry();
-        angleEntry = Constants.swerveDebugTab.add("Angle", 0).getEntry();
-        pitchEntry = Constants.swerveDebugTab.add("Pitch", 0).getEntry();
-        rollEntry = Constants.swerveDebugTab.add("Roll", 0).getEntry();
-
-        
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -138,10 +125,5 @@ public class Swerve extends SubsystemBase {
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
 
-        poseXEntry.setDouble(getPose().getX());
-        poseYEntry.setDouble(getPose().getY());
-        angleEntry.setDouble(getYaw().getDegrees());
-        pitchEntry.setDouble(gyro.getPitch());
-        rollEntry.setDouble(gyro.getRoll());
     }
 }
