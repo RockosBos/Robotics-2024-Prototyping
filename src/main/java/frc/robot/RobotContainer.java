@@ -13,24 +13,16 @@ import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -60,7 +52,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
   
-    private final SendableChooser<Command> autonomousSelector = new SendableChooser<Command>();
+    private final SendableChooser<Command> autonomousSelector;
 
     private SlewRateLimiter translationLimiter = new SlewRateLimiter(5);
     private SlewRateLimiter strafeLimiter = new SlewRateLimiter(5);
@@ -83,6 +75,7 @@ public class RobotContainer {
 
         s_SampleSubsystem.setDefaultCommand(new stopSampleMotor(s_SampleSubsystem));
         
+        autonomousSelector = AutoBuilder.buildAutoChooser();
 
         CameraServer.startAutomaticCapture();
 
