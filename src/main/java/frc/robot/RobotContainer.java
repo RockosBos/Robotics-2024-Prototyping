@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.Swerve;
+import frc.robot.commands.IntakeInFeed;
+import frc.robot.commands.IntakeStopFeed;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
@@ -49,7 +52,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final SampleSubsystem s_SampleSubsystem = new SampleSubsystem();
-
+    private final IntakeSubsystem s_IntakeSubsystem = new IntakeSubsystem();
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -59,6 +62,8 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driveController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
+    private final JoystickButton runIntakeButtonF = new JoystickButton(driveController, XboxController.Button.kB.value);
+     private final JoystickButton runIntakeButtonB = new JoystickButton(driveController, XboxController.Button.kX.value);
   
     private final SendableChooser<Command> autonomousSelector = new SendableChooser<Command>();
 
@@ -82,7 +87,7 @@ public class RobotContainer {
         );
 
         s_SampleSubsystem.setDefaultCommand(new stopSampleMotor(s_SampleSubsystem));
-        
+        s_IntakeSubsystem.setDefaultCommand(new IntakeStopFeed(s_IntakeSubsystem));
 
         CameraServer.startAutomaticCapture();
 
@@ -102,7 +107,7 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
-
+        runIntakeButtonF.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
     }
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
