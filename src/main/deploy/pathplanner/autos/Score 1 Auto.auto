@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 7.0
+      "x": 0.91,
+      "y": 4.41249682499365
     },
-    "rotation": 0
+    "rotation": 127.7756843059547
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "Right Score 1 Leave"
           }
         }
       ]

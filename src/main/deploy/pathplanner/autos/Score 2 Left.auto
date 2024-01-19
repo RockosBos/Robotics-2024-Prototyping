@@ -1,0 +1,38 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2630356689284812,
+      "y": 6.479480387532203
+    },
+    "rotation": 33.69006752597987
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Score 2 Left - 1"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Score 2 Left 2"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
