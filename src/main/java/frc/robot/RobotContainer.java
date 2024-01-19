@@ -14,9 +14,11 @@ import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -99,7 +101,8 @@ public class RobotContainer {
     }
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-      return autonomousSelector.getSelected();
+      //return autonomousSelector.getSelected();
+      return new PathPlannerAuto("New Auto");
   }
 
   public void putDashboard(){
