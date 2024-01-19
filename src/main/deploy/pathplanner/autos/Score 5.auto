@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.0138248847926272,
+      "y": 4.529772488116405
+    },
+    "rotation": -40.426078740099165
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 5 - 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 5 - 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 5 - 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 5 - 4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
