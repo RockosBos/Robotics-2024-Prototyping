@@ -11,6 +11,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.commands.IntakeInFeed;
+import frc.robot.commands.IntakeOutFeed;
 import frc.robot.commands.IntakeStopFeed;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.stopSampleMotor;
@@ -20,6 +21,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -62,8 +64,8 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driveController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
-    private final JoystickButton runIntakeButtonF = new JoystickButton(driveController, XboxController.Button.kB.value);
-     private final JoystickButton runIntakeButtonB = new JoystickButton(driveController, XboxController.Button.kX.value);
+    private final JoystickButton IntakeInFeed = new JoystickButton(driveController, XboxController.Button.kB.value);
+     private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
   
     private final SendableChooser<Command> autonomousSelector = new SendableChooser<Command>();
 
@@ -107,7 +109,9 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
-        runIntakeButtonF.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
+        IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
+        IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
+
     }
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
