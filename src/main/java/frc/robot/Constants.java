@@ -32,6 +32,7 @@ public final class Constants {
 
     public static final double SampleSpeed = 0.31415;
     public static final double IntakeInFeedSpeed = 0.5;
+    public static final double IntakeOutFeedSpeed = -0.5;
 
 
     public static final class Swerve {
