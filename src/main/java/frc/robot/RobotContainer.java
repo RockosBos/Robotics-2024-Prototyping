@@ -9,11 +9,13 @@ package frc.robot;
 
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.Swerve;
+import frc.robot.commands.Delay;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -44,6 +46,8 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final SampleSubsystem s_SampleSubsystem = new SampleSubsystem();
 
+
+
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -63,6 +67,8 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+
+        NamedCommands.registerCommand("Delay1Second", new Delay(1.0));
 
         //SET DEFAULT COMMANDS  
         s_Swerve.setDefaultCommand(
@@ -101,8 +107,8 @@ public class RobotContainer {
     }
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-      //return autonomousSelector.getSelected();
-      return new PathPlannerAuto("New Auto");
+      return autonomousSelector.getSelected();
+      //return new PathPlannerAuto("New Auto");
   }
 
   public void putDashboard(){

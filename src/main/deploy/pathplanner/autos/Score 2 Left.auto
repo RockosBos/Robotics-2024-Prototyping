@@ -22,6 +22,12 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "Delay1Second"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "Score 2 Left - 2"
