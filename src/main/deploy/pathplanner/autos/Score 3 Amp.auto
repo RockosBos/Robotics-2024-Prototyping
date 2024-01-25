@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.0798029014032335,
+      "y": 6.534646792546081
+    },
+    "rotation": 41.99
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 3 Amp - 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 3 Amp - 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 3 Amp - 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Score 3 Amp - 4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

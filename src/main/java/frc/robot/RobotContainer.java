@@ -10,12 +10,17 @@ package frc.robot;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.Swerve;
+import frc.robot.commands.Delay;
 import frc.robot.commands.IntakeInFeed;
 import frc.robot.commands.IntakeOutFeed;
 import frc.robot.commands.IntakeStopFeed;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -25,17 +30,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -67,7 +66,7 @@ public class RobotContainer {
     private final JoystickButton IntakeInFeed = new JoystickButton(driveController, XboxController.Button.kB.value);
      private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
   
-    private final SendableChooser<Command> autonomousSelector = new SendableChooser<Command>();
+    private final SendableChooser<Command> autonomousSelector;
 
     private SlewRateLimiter translationLimiter = new SlewRateLimiter(5);
     private SlewRateLimiter strafeLimiter = new SlewRateLimiter(5);
@@ -76,6 +75,8 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+
+        NamedCommands.registerCommand("Delay1Second", new Delay(1.0));
 
         //SET DEFAULT COMMANDS  
         s_Swerve.setDefaultCommand(
@@ -89,6 +90,8 @@ public class RobotContainer {
         );
 
         s_SampleSubsystem.setDefaultCommand(new stopSampleMotor(s_SampleSubsystem));
+        
+        autonomousSelector = AutoBuilder.buildAutoChooser();
         s_IntakeSubsystem.setDefaultCommand(new IntakeStopFeed(s_IntakeSubsystem));
 
         CameraServer.startAutomaticCapture();
@@ -116,6 +119,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
       return autonomousSelector.getSelected();
+      //return new PathPlannerAuto("New Auto");
   }
 
   public void putDashboard(){

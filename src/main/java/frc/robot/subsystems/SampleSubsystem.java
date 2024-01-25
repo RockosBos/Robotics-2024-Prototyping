@@ -13,7 +13,6 @@ import frc.robot.Constants;
 public class SampleSubsystem extends SubsystemBase {
 
   private static CANSparkMax motor = new CANSparkMax(Constants.sampleMotorID, MotorType.kBrushless);
-
   private double speed = 0;
   /** Creates a new SampleSubsystem. */
   public SampleSubsystem() {
@@ -29,6 +28,5 @@ public class SampleSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     motor.set(speed);
-    System.out.println(speed);
   }
 }
