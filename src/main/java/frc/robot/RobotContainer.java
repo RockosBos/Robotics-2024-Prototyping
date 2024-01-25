@@ -13,6 +13,8 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.commands.IntakeInFeed;
 import frc.robot.commands.IntakeOutFeed;
 import frc.robot.commands.IntakeStopFeed;
+import frc.robot.commands.SetSampleHigh;
+import frc.robot.commands.SetSampleLow;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
@@ -88,7 +90,7 @@ public class RobotContainer {
             )
         );
 
-        s_SampleSubsystem.setDefaultCommand(new stopSampleMotor(s_SampleSubsystem));
+        s_SampleSubsystem.setDefaultCommand(new SetSampleLow(s_SampleSubsystem));
         s_IntakeSubsystem.setDefaultCommand(new IntakeStopFeed(s_IntakeSubsystem));
 
         CameraServer.startAutomaticCapture();
@@ -108,7 +110,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
+        runSampleMotor.whileTrue(new SetSampleHigh(s_SampleSubsystem));
         IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
         IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
 

@@ -19,7 +19,7 @@ public final class Constants {
 
     //Motor ID's
 
-    public static final int INTAKEID = 15;
+    public static final int INTAKEID = 25;
     public static final int ARMROTATEID = 16;
     public static final int ARMEXTENSIONID = 17;
     public static final int WRISTID = 18;
@@ -28,7 +28,7 @@ public final class Constants {
     public static final int LEFTCLIMBID = 21;
     public static final int RIGHTCLIMBID = 22;
 
-    public static final int sampleMotorID = 30;
+    public static final int sampleMotorID = 15;
 
     public static final double SampleSpeed = 0.31415;
     public static final double IntakeInFeedSpeed = 0.5;
