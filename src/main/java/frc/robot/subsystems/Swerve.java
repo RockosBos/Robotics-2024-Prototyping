@@ -165,6 +165,7 @@ public class Swerve extends SubsystemBase {
         if(limelight.validTarget()){
             LLPoseData = limelight.getLLPose(); 
             swerveOdometry.resetPosition(new Rotation2d(getYaw().getDegrees()), getModulePositions(), new Pose2d(new Translation2d(LLPoseData[0], LLPoseData[1]), new Rotation2d(LLPoseData[5])));
+            gyro.setYaw(LLPoseData[5]);
         }
         SmartDashboard.putNumber("Robot PoseX", this.getPose().getX());
         SmartDashboard.putNumber("Robot PoseY", this.getPose().getY());
