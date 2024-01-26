@@ -38,6 +38,9 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
+    public Limelight limelight = new Limelight();
+
+    public double[] LLPoseData;
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
@@ -158,7 +161,14 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
-        swerveOdometry.update(getYaw(), getModulePositions());  
-
+        swerveOdometry.update(getYaw(), getModulePositions());
+        if(limelight.validTarget()){
+            LLPoseData = limelight.getLLPose(); 
+            swerveOdometry.resetPosition(new Rotation2d(getYaw().getDegrees()), getModulePositions(), new Pose2d(new Translation2d(LLPoseData[0], LLPoseData[1]), new Rotation2d(LLPoseData[5])));
+        }
+        SmartDashboard.putNumber("Robot PoseX", this.getPose().getX());
+        SmartDashboard.putNumber("Robot PoseY", this.getPose().getY());
+        SmartDashboard.putNumber("Robot PoseYaw", getYaw().getDegrees());
+    
     }
 }

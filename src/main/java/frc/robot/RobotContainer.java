@@ -8,6 +8,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.commands.Delay;
@@ -54,6 +55,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final SampleSubsystem s_SampleSubsystem = new SampleSubsystem();
     private final IntakeSubsystem s_IntakeSubsystem = new IntakeSubsystem();
+    private final Limelight s_Limelight = new Limelight();
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
