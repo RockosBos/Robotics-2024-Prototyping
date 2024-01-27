@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.ShootingSubsystem;
@@ -15,6 +16,8 @@ import frc.robot.commands.Delay;
 import frc.robot.commands.IntakeInFeed;
 import frc.robot.commands.IntakeOutFeed;
 import frc.robot.commands.IntakeStopFeed;
+import frc.robot.commands.SetClimbHigh;
+import frc.robot.commands.SetClimbLow;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.SetShooter;
 import frc.robot.commands.StopShootMotor;
@@ -58,6 +61,7 @@ public class RobotContainer {
     private final SampleSubsystem s_SampleSubsystem = new SampleSubsystem();
     private final IntakeSubsystem s_IntakeSubsystem = new IntakeSubsystem();
     private final ShootingSubsystem s_ShootingSubsystem = new ShootingSubsystem();
+    private final ClimbingSubsystem s_ClimbingSubsystem = new ClimbingSubsystem();
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -66,10 +70,11 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driveController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
+    //private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
     private final JoystickButton IntakeInFeed = new JoystickButton(driveController, XboxController.Button.kB.value);
     private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
     private final JoystickButton Shoot = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
+    private final JoystickButton Climb = new JoystickButton(driveController, XboxController.Button.kA.value);
 
   
     private final SendableChooser<Command> autonomousSelector;
@@ -100,6 +105,7 @@ public class RobotContainer {
         autonomousSelector = AutoBuilder.buildAutoChooser();
         s_IntakeSubsystem.setDefaultCommand(new IntakeStopFeed(s_IntakeSubsystem));
         s_ShootingSubsystem.setDefaultCommand(new StopShootMotor(s_ShootingSubsystem));
+        s_ClimbingSubsystem.setDefaultCommand(new SetClimbLow(s_ClimbingSubsystem));
 
         CameraServer.startAutomaticCapture();
 
@@ -118,10 +124,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
+        //runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
         IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
         IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
         Shoot.whileTrue(new SetShooter(s_ShootingSubsystem));
+        Climb.whileTrue(new SetClimbHigh(s_ClimbingSubsystem));
 
     }
   public Command getAutonomousCommand() {
