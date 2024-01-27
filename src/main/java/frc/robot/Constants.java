@@ -34,8 +34,8 @@ public final class Constants {
     public static final double IntakeInFeedSpeed = 0.5;
     public static final double IntakeOutFeedSpeed = -0.5;
 
-    public static final double RightMotorVelocity = 100.0;
-    public static final double LeftMotorVelocity = 100.0;
+    public static final double RightMotorVelocity = 5700.0;
+    public static final double LeftMotorVelocity = 5700.0;
 
     public static final class Swerve {
         public static final int pigeonID = 14;

@@ -57,9 +57,9 @@ public class ShootingSubsystem extends SubsystemBase {
      leftmaxRPM = 5700;
  
      // Smart Motion Coefficients
-     leftmaxVel = 2000; // rpm
+     leftmaxVel = 5700; // rpm
      leftminVel = 0;
-     leftmaxAcc = 1500;
+     leftmaxAcc = 5850;
  
      // set PID coefficients
 
@@ -81,9 +81,9 @@ public class ShootingSubsystem extends SubsystemBase {
      rightmaxRPM = 5700;
  
      // Smart Motion Coefficients
-     rightmaxVel = 2000; // rpm
+     rightmaxVel = 5700; // rpm
      rightminVel = 0;
-     rightmaxAcc = 1500;
+     rightmaxAcc = 5850;
  
      // set PID coefficients
 

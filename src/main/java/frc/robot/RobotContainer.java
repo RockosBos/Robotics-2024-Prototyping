@@ -16,6 +16,7 @@ import frc.robot.commands.IntakeOutFeed;
 import frc.robot.commands.IntakeStopFeed;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.SetShooter;
+import frc.robot.commands.StopShootMotor;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
 
@@ -95,6 +96,7 @@ public class RobotContainer {
 
         s_SampleSubsystem.setDefaultCommand(new stopSampleMotor(s_SampleSubsystem));
         s_IntakeSubsystem.setDefaultCommand(new IntakeStopFeed(s_IntakeSubsystem));
+        s_ShootingSubsystem.setDefaultCommand(new StopShootMotor(s_ShootingSubsystem));
 
         CameraServer.startAutomaticCapture();
 
