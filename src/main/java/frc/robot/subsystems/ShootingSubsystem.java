@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.MotorCommutation;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -37,6 +36,10 @@ public class ShootingSubsystem extends SubsystemBase {
 
 
   public ShootingSubsystem(){
+
+    ShootingMotorLeft.restoreFactoryDefaults();
+    ShootingMotorRight.restoreFactoryDefaults();
+
     m_leftpidController = ShootingMotorLeft.getPIDController();
     m_rightpidController = ShootingMotorRight.getPIDController();
 
@@ -118,6 +121,10 @@ public class ShootingSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Left Set Velocity", leftVelocity);
+    SmartDashboard.putNumber("Right Set Velocity", rightVelocity);
+    SmartDashboard.putNumber("Left Velocity", ShootingMotorLeft.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Right Velocity", ShootingMotorRight.getEncoder().getVelocity());
    m_leftpidController.setReference(leftVelocity, CANSparkMax.ControlType.kSmartVelocity);
    m_rightpidController.setReference(rightVelocity, CANSparkMax.ControlType.kSmartVelocity);
   }

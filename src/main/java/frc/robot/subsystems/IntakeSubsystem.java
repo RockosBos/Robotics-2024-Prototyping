@@ -29,6 +29,5 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     intakeMotor.set(speed);
-    System.out.println(speed);
   }
 }
