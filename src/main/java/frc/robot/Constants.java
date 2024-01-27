@@ -37,6 +37,11 @@ public final class Constants {
     public static final double RightMotorVelocity = 5700.0;
     public static final double LeftMotorVelocity = 5700.0;
 
+    public static final double leftClimbHigh = 50.0;
+    public static final double rightClimbHigh  = 50.0;
+    public static final double leftClimbLow = 0.0;
+    public static final double rightClimbLow = 0.0;
+
     public static final class Swerve {
         public static final int pigeonID = 14;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
