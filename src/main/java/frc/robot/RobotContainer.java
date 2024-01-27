@@ -9,11 +9,13 @@ package frc.robot;
 
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SampleSubsystem;
+import frc.robot.subsystems.ShootingSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.commands.IntakeInFeed;
 import frc.robot.commands.IntakeOutFeed;
 import frc.robot.commands.IntakeStopFeed;
 import frc.robot.commands.SetSampleMotor;
+import frc.robot.commands.SetShooter;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
 
@@ -55,6 +57,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final SampleSubsystem s_SampleSubsystem = new SampleSubsystem();
     private final IntakeSubsystem s_IntakeSubsystem = new IntakeSubsystem();
+    private final ShootingSubsystem s_ShootingSubsystem = new ShootingSubsystem();
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -65,7 +68,9 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
     private final JoystickButton IntakeInFeed = new JoystickButton(driveController, XboxController.Button.kB.value);
-     private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
+    private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
+    private final JoystickButton Shoot = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
+
   
     private final SendableChooser<Command> autonomousSelector = new SendableChooser<Command>();
 
@@ -111,6 +116,7 @@ public class RobotContainer {
         runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
         IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
         IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
+        Shoot.whileTrue(new SetShooter(s_ShootingSubsystem));
 
     }
   public Command getAutonomousCommand() {
