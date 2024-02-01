@@ -12,6 +12,8 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import java.lang.Math;
+
 
 public class ClimbingSubsystem extends SubsystemBase {
     private static CANSparkMax leftClimb = new CANSparkMax(Constants.LEFTCLIMBID, MotorType.kBrushless);
@@ -103,11 +105,33 @@ public class ClimbingSubsystem extends SubsystemBase {
     this.rightClimbSetPoint = rightClimbSetPoint;
   }
 
+  public boolean leftClimbInPosition() {
+    double dif = leftClimbEncoder.getPosition() - leftClimbSetPoint;
+
+    if (Math.abs(dif) > Constants.leftClimbThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+    public boolean rightClimbInPosition() {
+    double dif = rightClimbEncoder.getPosition() - rightClimbSetPoint;
+
+    if (Math.abs(dif) > Constants.rightClimbThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     
     leftClimbPidController.setReference(leftClimbSetPoint, CANSparkMax.ControlType.kSmartMotion);
     rightClimbPidController.setReference(rightClimbSetPoint, CANSparkMax.ControlType.kSmartMotion);
+
+    
   }
 }

@@ -138,8 +138,38 @@ public class ArmSubsystem extends SubsystemBase {
     this.wristSetPoint = wristSetPoint;
   }
 
+  public boolean rotateInPosition() {
+    double dif = rotateEncoder.getPosition() - rotateSetPoint;
 
+    if (Math.abs(dif) > Constants.rotateThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 
+  public boolean extendInPosition() {
+    double dif = extendEncoder.getPosition() - extendSetPoint;
+
+    if (Math.abs(dif) > Constants.extendThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  public boolean wristInPosition() {
+    double dif = wristEncoder.getPosition() - wristSetPoint;
+
+    if (Math.abs(dif) > Constants.wristThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
