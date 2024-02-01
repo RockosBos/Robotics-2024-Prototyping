@@ -4,19 +4,25 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
-  private static CANSparkMax rotateArm;
-  private static CANSparkMax extendArm;
-  private static CANSparkMax wristArm;
+  private static CANSparkMax rotateArm = new CANSparkMax(Constants.ARMROTATEID, MotorType.kBrushless);
+  private static CANSparkMax extendArm = new CANSparkMax(Constants.ARMEXTENSIONID, MotorType.kBrushless);
+  private static CANSparkMax wristArm = new CANSparkMax(Constants.WRISTID, MotorType.kBrushless);
+
+  private static final SparkAbsoluteEncoder m_rotateAbsEncoder = rotateArm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+  private static final SparkAbsoluteEncoder m_wristAbsEncoder = wristArm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
   private static SparkPIDController rotatePidController;
   private static SparkPIDController extendPidController;
@@ -30,7 +36,6 @@ public class ArmSubsystem extends SubsystemBase {
   private double extendSetPoint = 0;
   private double wristSetPoint = 0;
 
-  //carpal tunnel
 
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
@@ -44,6 +49,9 @@ public class ArmSubsystem extends SubsystemBase {
       rotatePidController = rotateArm.getPIDController();
       extendPidController = extendArm.getPIDController();
       wristPidController = wristArm.getPIDController();
+
+      rotatePidController.setFeedbackDevice(m_rotateAbsEncoder);
+      wristPidController.setFeedbackDevice(m_wristAbsEncoder);
 
       rotateEncoder = rotateArm.getEncoder();
       extendEncoder = extendArm.getEncoder();
@@ -130,30 +138,48 @@ public class ArmSubsystem extends SubsystemBase {
     this.wristSetPoint = wristSetPoint;
   }
 
+  public boolean rotateInPosition() {
+    double dif = rotateEncoder.getPosition() - rotateSetPoint;
 
+    if (Math.abs(dif) > Constants.rotateThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 
+  public boolean extendInPosition() {
+    double dif = extendEncoder.getPosition() - extendSetPoint;
+
+    if (Math.abs(dif) > Constants.extendThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  public boolean wristInPosition() {
+    double dif = wristEncoder.getPosition() - wristSetPoint;
+
+    if (Math.abs(dif) > Constants.wristThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // read PID coefficients from SmartDashboard
-    double p = kP;
-    double i = kI;
-    double d = kD;
-    double iz = kIz;
-    double ff = kFF;
-    double max = kMaxOutput;
-    double min = kMinOutput;
-    double maxV = maxVel;
-    double minV = minVel;
-    double maxA = maxAcc;
-    double allE = allowedErr;
-    
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     
     
-    rotatePidController.setReference(rotateSetPoint, CANSparkMax.ControlType.kSmartMotion);
-    extendPidController.setReference(extendSetPoint, CANSparkMax.ControlType.kSmartMotion);
-    wristPidController.setReference(wristSetPoint, CANSparkMax.ControlType.kSmartMotion);
+    rotatePidController.setReference(rotateSetPoint, CANSparkMax.ControlType.kPosition);
+    extendPidController.setReference(extendSetPoint, CANSparkMax.ControlType.kPosition);
+    wristPidController.setReference(wristSetPoint, CANSparkMax.ControlType.kPosition);
 
   }
 }

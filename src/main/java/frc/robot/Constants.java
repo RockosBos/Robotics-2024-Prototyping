@@ -42,6 +42,18 @@ public final class Constants {
     public static final double leftClimbLow = 0.0;
     public static final double rightClimbLow = 0.0;
 
+    public static final double leftClimbThreshold = 0.0;
+    public static final double rightClimbThreshold = 0.0;
+
+    public static final double leftShootThreshold = 0.0;
+    public static final double rightShootThreshold = 0.0;
+
+    public static final double rotateThreshold = 0.0;
+    public static final double extendThreshold = 0.0;
+    public static final double wristThreshold = 0.0;
+    
+    
+    
     public static final class Swerve {
         public static final int pigeonID = 14;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-

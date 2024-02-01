@@ -118,6 +118,28 @@ public class ShootingSubsystem extends SubsystemBase {
     this.speed = speed;
   }
 
+  public boolean leftVelocityCheck() {
+    double dif = m_leftEncoder.getPosition() - leftVelocity;
+
+    if (Math.abs(dif) > Constants.leftShootThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  public boolean rightVelocityCheck() {
+    double dif = m_rightEncoder.getPosition() - rightVelocity;
+
+    if (Math.abs(dif) > Constants.rightShootThreshold) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
