@@ -52,7 +52,7 @@ public final class Constants {
     public static final double extendThreshold = 0.0;
     public static final double wristThreshold = 0.0;
     
-    
+    public static final double extendZeroThreshold = 1.0;
     
     public static final class Swerve {
         public static final int pigeonID = 14;

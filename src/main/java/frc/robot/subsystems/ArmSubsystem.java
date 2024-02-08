@@ -176,10 +176,13 @@ public class ArmSubsystem extends SubsystemBase {
     // read PID coefficients from SmartDashboard
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     
-    
-    rotatePidController.setReference(rotateSetPoint, CANSparkMax.ControlType.kPosition);
+    if(extendEncoder.getPosition() < Constants.extendZeroThreshold){
+        rotatePidController.setReference(rotateSetPoint, CANSparkMax.ControlType.kPosition);
+    }
+    else{
+        rotatePidController.setReference(rotateEncoder.getPosition(), CANSparkMax.ControlType.kPosition);
+    }
     extendPidController.setReference(extendSetPoint, CANSparkMax.ControlType.kPosition);
     wristPidController.setReference(wristSetPoint, CANSparkMax.ControlType.kPosition);
-
   }
 }
