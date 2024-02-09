@@ -6,29 +6,30 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeInFeed extends Command {
+public class SetArmForShoot extends Command {
 
-  private IntakeSubsystem i_IntakeSubsystem;
+  private ArmSubsystem a_ArmSubsystem;
 
-  /** Creates a new IntakeForward. */
-  public IntakeInFeed(IntakeSubsystem i_IntakeSubsystem) {
-    this.i_IntakeSubsystem = i_IntakeSubsystem;
-    addRequirements(this.i_IntakeSubsystem);
+  /** Creates a new SetArmForHold. */
+  public SetArmForShoot(ArmSubsystem a_ArmSubsystem) {
+    this.a_ArmSubsystem = a_ArmSubsystem;
+    addRequirements(this.a_ArmSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   i_IntakeSubsystem.setMotorSpeed(Constants.IntakeInFeedSpeed);
+    a_ArmSubsystem.setRotateSetPoint(Constants.ArmShootPosition);
+    a_ArmSubsystem.setExtendSetPoint(Constants.ExtendShootPosition);
+    a_ArmSubsystem.setWristSetPoint(Constants.WristShootPosition);
   }
   // Called once the command ends or is interrupted.
   @Override
@@ -37,6 +38,7 @@ public class IntakeInFeed extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return a_ArmSubsystem.getInPosition();
   }
 }
+
