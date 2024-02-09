@@ -10,12 +10,12 @@ import frc.robot.subsystems.ClimbingSubsystem;
   
 public class SetClimbLow extends Command {
  
-  private ClimbingSubsystem s_ClimbingSubsysetm;
+  private ClimbingSubsystem c_ClimbingSubsysetm;
  
   /** Creates a new SetClimbLow. */
-  public SetClimbLow(ClimbingSubsystem s_ClimbingSubsysetm) {
-    this.s_ClimbingSubsysetm = s_ClimbingSubsysetm;
-    addRequirements(this.s_ClimbingSubsysetm);
+  public SetClimbLow(ClimbingSubsystem c_ClimbingSubsysetm) {
+    this.c_ClimbingSubsysetm = c_ClimbingSubsysetm;
+    addRequirements(this.c_ClimbingSubsysetm);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,8 +28,8 @@ public class SetClimbLow extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_ClimbingSubsysetm.leftClimbRotateSetPoint(Constants.leftClimbLow);
-    s_ClimbingSubsysetm.rightClimbExtendSetPoint(Constants.rightClimbLow);
+    c_ClimbingSubsysetm.leftClimbRotateSetPoint(Constants.leftClimbLow);
+    c_ClimbingSubsysetm.rightClimbExtendSetPoint(Constants.rightClimbLow);
   }
   
 

@@ -36,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double extendSetPoint = 0;
   private double wristSetPoint = 0;
 
+  private boolean inPosition;
 
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
@@ -170,19 +171,36 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
   
+  public boolean getInPosition(){
+    return inPosition;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // read PID coefficients from SmartDashboard
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     
-    if(extendEncoder.getPosition() < Constants.extendZeroThreshold){
+    if(extendEncoder.getPosition() < Constants.extendZeroThreshold || Math.abs(rotateEncoder.getPosition() - rotateSetPoint) < Constants.rotateThreshold){
         rotatePidController.setReference(rotateSetPoint, CANSparkMax.ControlType.kPosition);
     }
     else{
         rotatePidController.setReference(rotateEncoder.getPosition(), CANSparkMax.ControlType.kPosition);
     }
-    extendPidController.setReference(extendSetPoint, CANSparkMax.ControlType.kPosition);
+    if (rotateInPosition()) {
+      extendPidController.setReference(extendSetPoint, CANSparkMax.ControlType.kPosition);
+    }
+    else {
+      extendPidController.setReference(Constants.ExtendZeroSetPoint, CANSparkMax.ControlType.kPosition);
+    }
+    
     wristPidController.setReference(wristSetPoint, CANSparkMax.ControlType.kPosition);
+
+    if (rotateInPosition() && extendInPosition() && wristInPosition()) {
+      inPosition = true;
+    }
+    else {
+      inPosition = false;
+    }
   }
 }

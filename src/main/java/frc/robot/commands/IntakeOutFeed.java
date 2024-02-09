@@ -10,12 +10,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeOutFeed extends Command {
 
-  private IntakeSubsystem s_IntakeSubsystem;
+  private IntakeSubsystem i_IntakeSubsystem;
 
   /** Creates a new IntakeOutFeed. */
-  public IntakeOutFeed(IntakeSubsystem s_IntakeSubsystem) {
-    this.s_IntakeSubsystem = s_IntakeSubsystem;
-    addRequirements(this.s_IntakeSubsystem);
+  public IntakeOutFeed(IntakeSubsystem i_IntakeSubsystem) {
+    this.i_IntakeSubsystem = i_IntakeSubsystem;
+    addRequirements(this.i_IntakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,7 +26,7 @@ public class IntakeOutFeed extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_IntakeSubsystem.setMotorSpeed(Constants.IntakeOutFeedSpeed);
+    i_IntakeSubsystem.setMotorSpeed(Constants.IntakeOutFeedSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override

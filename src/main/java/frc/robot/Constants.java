@@ -53,7 +53,27 @@ public final class Constants {
     public static final double wristThreshold = 0.0;
     
     public static final double extendZeroThreshold = 1.0;
+
+    public static final double ArmIntakePostion = 0.0;
+    public static final double ArmHoldPosition = 0.0;
+    public static final double ArmAmpPosition = 0.0;
+    public static final double ArmShootPosition = 0.0;
+    public static final double ArmTrapPosition = 0.0;
+
+    public static final double ExtendIntakePosition = 0.0;
+    public static final double ExtendHoldPosition = 0.0;
+    public static final double ExtendAmpPosition = 0.0;
+    public static final double ExtendShootPosition = 0.0;
+    public static final double ExtendTrapPosition = 0.0;
+
+    public static final double WristIntakePosition = 0.0;
+    public static final double WristHoldPosition = 0.0;
+    public static final double WristAmpPosition = 0.0;
+    public static final double WristShootPosition = 0.0;
+    public static final double WristTrapPosition = 0.0;
     
+    public static final double ExtendZeroSetPoint = 0.0;
+
     public static final class Swerve {
         public static final int pigeonID = 14;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-

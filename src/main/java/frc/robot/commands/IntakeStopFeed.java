@@ -10,18 +10,18 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeStopFeed extends InstantCommand {
 
-  private IntakeSubsystem s_IntakeSubsystem;
+  private IntakeSubsystem i_IntakeSubsystem;
 
   public IntakeStopFeed(IntakeSubsystem s_IntakeSubsystem) {
-    this.s_IntakeSubsystem = s_IntakeSubsystem;
-    addRequirements(this.s_IntakeSubsystem);
+    this.i_IntakeSubsystem = i_IntakeSubsystem;
+    addRequirements(this.i_IntakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    s_IntakeSubsystem.setMotorSpeed(0);
+    i_IntakeSubsystem.setMotorSpeed(0);
   }
 }
 
