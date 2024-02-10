@@ -22,9 +22,13 @@ import frc.robot.commands.Swerve.TeleopSwerve;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -64,7 +68,7 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driveController, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
+    private final JoystickButton pathToPose = new JoystickButton(driveController, XboxController.Button.kA.value);
     private final JoystickButton IntakeInFeed = new JoystickButton(driveController, XboxController.Button.kB.value);
      private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
   
@@ -73,6 +77,23 @@ public class RobotContainer {
     private SlewRateLimiter translationLimiter = new SlewRateLimiter(5);
     private SlewRateLimiter strafeLimiter = new SlewRateLimiter(5);
     private SlewRateLimiter rotationLimiter = new SlewRateLimiter(5);
+
+    // Since we are using a holonomic drivetrain, the rotation component of this pose
+    // represents the goal holonomic rotation
+    Pose2d targetPose = new Pose2d(2, 1.5, Rotation2d.fromDegrees(0.0));
+
+    // Create the constraints to use while pathfinding
+    PathConstraints constraints = new PathConstraints(
+        3.0, 4.0,
+        Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+    // Since AutoBuilder is configured, we can use it to build pathfinding commands
+    Command pathfindingCommand = AutoBuilder.pathfindToPose(
+        targetPose,
+        constraints,
+        0.0, // Goal end velocity in meters/sec
+        0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+    );
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -113,9 +134,10 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
-        IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
-        IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
+        //runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
+        pathToPose.whileTrue(pathfindingCommand);
+        //IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
+        //IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
 
     }
   public Command getAutonomousCommand() {
