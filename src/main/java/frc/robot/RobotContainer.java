@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.ShootingSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -62,6 +63,7 @@ public class RobotContainer {
     private final IntakeSubsystem s_IntakeSubsystem = new IntakeSubsystem();
     private final ShootingSubsystem s_ShootingSubsystem = new ShootingSubsystem();
     private final ClimbingSubsystem s_ClimbingSubsystem = new ClimbingSubsystem();
+    private final LED ledSystem = new LED();
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;

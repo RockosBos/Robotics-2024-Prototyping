@@ -42,6 +42,9 @@ public final class Constants {
     public static final double leftClimbLow = 0.0;
     public static final double rightClimbLow = 0.0;
 
+    public static final int ledPort = 0;
+    public static final int ledLength = 10;
+
     public static final class Swerve {
         public static final int pigeonID = 14;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
