@@ -17,11 +17,13 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -43,6 +45,11 @@ public class Swerve extends SubsystemBase {
     public Limelight limelight = new Limelight();
 
     public double[] LLPoseData;
+    double targetAngle = 0;
+    boolean aimControl = false;
+    public double thetaPID = 0;
+
+    public PIDController robotThetaController = new PIDController(0.01, 0.0, 0.0000001);
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
@@ -89,7 +96,7 @@ public class Swerve extends SubsystemBase {
             this::resetOdometry, 
             this::getModuleSpeeds, 
             this::driveRobotRelative, 
-            new HolonomicPathFollowerConfig(new PIDConstants(5.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0), 4.5, 0.4, new ReplanningConfig()), 
+            new HolonomicPathFollowerConfig(new PIDConstants(10, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0), 4.5, 0.4, new ReplanningConfig()), 
             () -> {
                 var alliance = DriverStation.getAlliance();
                 if (alliance.isPresent()) {
@@ -162,17 +169,49 @@ public class Swerve extends SubsystemBase {
         return "";
     }
 
+    public double getAimValue(){
+
+        double xGoalPos = 0, yGoalPos = 0;
+
+        if(DriverStation.getAlliance().toString() == "blue"){
+            xGoalPos = 0.0;
+            yGoalPos = 5.55;
+        }
+        else{
+            xGoalPos = 0.0;
+            yGoalPos = 5.55;
+        }
+
+        targetAngle =  Math.toDegrees(Math.atan((this.getPose().getY() - yGoalPos) / (this.getPose().getX() - xGoalPos)));
+
+        return targetAngle;
+
+    }
+
+    public void setAimControl(boolean aimControl){
+        this.aimControl = aimControl;
+    }
+
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());
         if(limelight.validTarget()){
             LLPoseData = limelight.getLLPose(); 
             swerveOdometry.resetPosition(new Rotation2d(getYaw().getDegrees()), getModulePositions(), new Pose2d(new Translation2d(LLPoseData[0], LLPoseData[1]), new Rotation2d(LLPoseData[5])));
-            gyro.setYaw(LLPoseData[5]);
+            //gyro.setYaw(LLPoseData[5]);
         }
+
+
+        if(aimControl){
+            thetaPID = robotThetaController.calculate(getYaw().getDegrees(), targetAngle);
+        }
+        
+
         SmartDashboard.putNumber("Robot PoseX", this.getPose().getX());
         SmartDashboard.putNumber("Robot PoseY", this.getPose().getY());
         SmartDashboard.putNumber("Robot PoseYaw", getYaw().getDegrees());
-    
+
+        SmartDashboard.putNumber("PID Controller Output", thetaPID);
+        SmartDashboard.putNumber("Robot Aim Angle", getAimValue());
     }
 }

@@ -17,6 +17,7 @@ import frc.robot.commands.IntakeOutFeed;
 import frc.robot.commands.IntakeStopFeed;
 import frc.robot.commands.SetSampleMotor;
 import frc.robot.commands.stopSampleMotor;
+import frc.robot.commands.Swerve.AutoAimSwerve;
 import frc.robot.commands.Swerve.TeleopSwerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -71,30 +72,13 @@ public class RobotContainer {
     private final JoystickButton pathToPose = new JoystickButton(driveController, XboxController.Button.kA.value);
     private final JoystickButton IntakeInFeed = new JoystickButton(driveController, XboxController.Button.kB.value);
      private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
+     private final JoystickButton AutoAim = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
   
     private final SendableChooser<Command> autonomousSelector;
 
     private SlewRateLimiter translationLimiter = new SlewRateLimiter(5);
     private SlewRateLimiter strafeLimiter = new SlewRateLimiter(5);
     private SlewRateLimiter rotationLimiter = new SlewRateLimiter(5);
-
-    // Since we are using a holonomic drivetrain, the rotation component of this pose
-    // represents the goal holonomic rotation
-    Pose2d targetPose = new Pose2d(2, 1.5, Rotation2d.fromDegrees(0.0));
-
-    // Create the constraints to use while pathfinding
-    PathConstraints constraints = new PathConstraints(
-        3.0, 4.0,
-        Units.degreesToRadians(540), Units.degreesToRadians(720));
-
-    // Since AutoBuilder is configured, we can use it to build pathfinding commands
-    Command pathfindingCommand = AutoBuilder.pathfindToPose(
-        targetPose,
-        constraints,
-        0.0, // Goal end velocity in meters/sec
-        0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
-    );
-
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -134,8 +118,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        AutoAim.whileTrue(new AutoAimSwerve(s_Swerve, () -> translationLimiter.calculate(-driveController.getRawAxis(translationAxis)), 
+                () -> strafeLimiter.calculate(-driveController.getRawAxis(strafeAxis)), 
+                () -> rotationLimiter.calculate(-driveController.getRawAxis(rotationAxis)), 
+                () -> robotCentric.getAsBoolean()));
         //runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
-        pathToPose.whileTrue(pathfindingCommand);
         //IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
         //IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
 
