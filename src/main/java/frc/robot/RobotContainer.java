@@ -10,6 +10,7 @@ package frc.robot;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LED;
+import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.SampleSubsystem;
 import frc.robot.subsystems.ShootingSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -24,6 +25,7 @@ import frc.robot.commands.SetShooter;
 import frc.robot.commands.StopShootMotor;
 import frc.robot.commands.stopSampleMotor;
 import frc.robot.commands.Swerve.TeleopSwerve;
+import frc.robot.commands.Swerve.targetAim;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -60,10 +62,11 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final SampleSubsystem s_SampleSubsystem = new SampleSubsystem();
-    private final IntakeSubsystem s_IntakeSubsystem = new IntakeSubsystem();
+    private final IntakeSubsystem i_IntakeSubsystem = new IntakeSubsystem();
     private final ShootingSubsystem s_ShootingSubsystem = new ShootingSubsystem();
-    private final ClimbingSubsystem s_ClimbingSubsystem = new ClimbingSubsystem();
+    private final ClimbingSubsystem c_ClimbingSubsystem = new ClimbingSubsystem();
     private final LED ledSystem = new LED();
+    private final PhotonVision p_PhotonVision = new PhotonVision();
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -74,9 +77,10 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
     //private final JoystickButton runSampleMotor = new JoystickButton(driveController, XboxController.Button.kA.value);
     private final JoystickButton IntakeInFeed = new JoystickButton(driveController, XboxController.Button.kB.value);
-    private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
+    //private final JoystickButton IntakeOutFeed = new JoystickButton(driveController, XboxController.Button.kX.value);
     private final JoystickButton Shoot = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
     private final JoystickButton Climb = new JoystickButton(driveController, XboxController.Button.kA.value);
+    private final JoystickButton targetAim = new JoystickButton(driveController, XboxController.Button.kX.value);
 
   
     private final SendableChooser<Command> autonomousSelector;
@@ -105,9 +109,9 @@ public class RobotContainer {
         s_SampleSubsystem.setDefaultCommand(new stopSampleMotor(s_SampleSubsystem));
         
         autonomousSelector = AutoBuilder.buildAutoChooser();
-        s_IntakeSubsystem.setDefaultCommand(new IntakeStopFeed(s_IntakeSubsystem));
+        i_IntakeSubsystem.setDefaultCommand(new IntakeStopFeed(i_IntakeSubsystem));
         s_ShootingSubsystem.setDefaultCommand(new StopShootMotor(s_ShootingSubsystem));
-        s_ClimbingSubsystem.setDefaultCommand(new SetClimbLow(s_ClimbingSubsystem));
+        c_ClimbingSubsystem.setDefaultCommand(new SetClimbLow(c_ClimbingSubsystem));
 
         CameraServer.startAutomaticCapture();
 
@@ -127,10 +131,15 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         //runSampleMotor.whileTrue(new SetSampleMotor(s_SampleSubsystem));
-        IntakeInFeed.whileTrue(new IntakeInFeed(s_IntakeSubsystem));
-        IntakeOutFeed.whileTrue(new IntakeOutFeed(s_IntakeSubsystem));
+        IntakeInFeed.whileTrue(new IntakeInFeed(i_IntakeSubsystem));
+        //IntakeOutFeed.whileTrue(new IntakeOutFeed(i_IntakeSubsystem));
         Shoot.whileTrue(new SetShooter(s_ShootingSubsystem));
-        Climb.whileTrue(new SetClimbHigh(s_ClimbingSubsystem));
+        Climb.whileTrue(new SetClimbHigh(c_ClimbingSubsystem));
+        targetAim.whileTrue(new targetAim(s_Swerve, p_PhotonVision,
+                () -> translationLimiter.calculate(-driveController.getRawAxis(translationAxis)), 
+                () -> strafeLimiter.calculate(-driveController.getRawAxis(strafeAxis)), 
+                () -> rotationLimiter.calculate(-driveController.getRawAxis(rotationAxis)), 
+                () -> robotCentric.getAsBoolean()));
 
     }
   public Command getAutonomousCommand() {
